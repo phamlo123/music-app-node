@@ -53,6 +53,3 @@ const PlaylistsController = (app) => {
 }
 
 export default PlaylistsController
-
-
-

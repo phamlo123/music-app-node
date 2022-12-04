@@ -4,7 +4,7 @@ export const createPlaylist = async (playlist) =>
     await playlistsModel.create(playlist)
 
 export const findPlaylistByName = async (name) =>
-    await playlistsModel.findOne({name: name})
+    await playlistsModel.findOne({name: name}).populate('songs')
 
 export const findAllPlaylists = async () =>
     await playlistsModel.find()
@@ -20,4 +20,4 @@ export const updatePlaylist = async (pid, playlistUpdates) =>
         {$set: playlistUpdates})
 
 export const findPlaylistById = async (pid) =>
-    await playlistsModel.findById(pid)
+    await playlistsModel.findById(pid).populate('songs')
