@@ -1,6 +1,6 @@
 {
   "type": "module",
-  "name": "rate-my-dorm-node",
+  "name": "music-app-node",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
