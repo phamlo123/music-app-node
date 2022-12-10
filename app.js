@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import express from 'express'
 import cors from 'cors'
+import session from 'express-session'
 
 import UserController from "./controllers/user/user-controller.js"
 import PlaylistsController from "./controllers/playlist/playlist-controller.js";
@@ -9,7 +10,18 @@ const CONNECTION_STRING = process.env.DB_CONNECTION_STRING || 'mongodb://127.0.0
 mongoose.connect(CONNECTION_STRING);
 
 const app = express()
-app.use(cors())
+
+app.use(cors({
+    credentials: true,
+    origin: 'http://localhost:3000'
+}))
+app.use(session({
+    secret: 'should be an environment variable',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}))
+
 app.use(express.json());
 UserController(app)
 PlaylistsController(app)

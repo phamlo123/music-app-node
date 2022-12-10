@@ -7,7 +7,7 @@ export const findPlaylistByName = async (name) =>
     await playlistsModel.findOne({name: name}).populate('songs')
 
 export const findAllPlaylists = async () =>
-    await playlistsModel.find()
+    await playlistsModel.find({}, {name: true, _id:false})
 
 export const findPlaylistsForUser = async (uid) => 
     await playlistsModel.find({user: uid}, {user: false})
