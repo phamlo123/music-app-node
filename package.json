@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/phamlo123/rate-my-dorm-node.git"
+    "url": "git+https://github.com/phamlo123/music-app-node.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/phamlo123/rate-my-dorm-node/issues"
+    "url": "https://github.com/phamlo123/music-app-node/issues"
   },
-  "homepage": "https://github.com/phamlo123/rate-my-dorm-node#readme",
+  "homepage": "https://github.com/phamlo123/music-app-node#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
