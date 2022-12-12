@@ -1,7 +1,8 @@
 import playlistsModel from "./playlists-model.js";
 import songsModel from "../song/songs-model.js";
-export const createPlaylist = async (playlist) =>
-    await playlistsModel.create(playlist)
+export const createPlaylist = async (playlist) => {
+    return await playlistsModel.create(playlist)
+}
 
 export const findPlaylistByName = async (name) =>
     await playlistsModel.findOne({name: name}).populate('songs')
@@ -33,10 +34,11 @@ export const addSongToPlaylist = async (pid, song) => {
         sid = local_song._id
     }
 
-    return await playlistsModel.updateOne(
+    const status = await playlistsModel.updateOne(
         { _id: pid},
         { $push: { songs: sid } },
-    );
+    )
+    return await findPlaylistById(pid);
 }
 
 export const removeSongFromPlaylist = async (pid, song_id) => {
