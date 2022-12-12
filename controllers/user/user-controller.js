@@ -65,9 +65,25 @@ const UsersController = (app) => {
         res.sendStatus(404)
     }
 
+    const follow = async (req, res) => {
+        const uid = req.params.uid;
+        const fid = req.body;
+        const user = await userDao.follow(uid, fid)
+        res.json(user)
+    }
+
+    const unfollow = async (req, res) => {
+        const uid = req.params.uid;
+        const fid = req.body;
+        const user = await userDao.unfollow(uid, fid)
+        res.json(user)
+    }
+
     app.get('/users', findAllUsers)
     app.get('/users/:uid', findUserById)
     app.post('/users', createUser)
+    app.post('/users/follow/:uid', follow)
+    app.post('/users/unfollow/:uid', unfollow)
     app.put('/users/:uid', updateUser)
     app.delete('/users/:uid', deleteUser)
 
@@ -75,6 +91,7 @@ const UsersController = (app) => {
     app.post('/login', login)
     app.post('/logout', logout)
     app.post('/profile', profile)
+    
 }
 
 export default UsersController

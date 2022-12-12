@@ -5,20 +5,30 @@ import * as playlistDao from './playlists-dao.js'
 const PlaylistsController = (app) => {
 
     const findAllPlaylists = async (req, res) => {
-        const users = await playlistDao.findAllPlaylists()
-        res.json(users)
+        const playlists = await playlistDao.findAllPlaylists()
+        res.json(playlists)
     }
     const createPlaylist = async (req, res) => {
         const newPlaylist = req.body;
         const actualPlaylist = await playlistDao.createPlaylist(newPlaylist)
         res.json(actualPlaylist);
     }
-    const updatePlaylist = () => {}
-    const deletePlaylist = () => {}
+    const updatePlaylist = async (req, res) => {
+        const newPlaylist = req.body;
+        const pid = new mongoose.Types.ObjectId(req.params.pid);
+        const status = await playlistDao.updatePlaylist(pid, newPlaylist);
+        res.json(status);
+    }
+    const deletePlaylist = async (req, res) => {
+        const pid = new mongoose.Types.ObjectId(req.params.pid);
+        const status = await playlistDao.deletePlaylist(pid);
+        res.json(status);
+        return
+    }
 
 
     const findPlaylistById = async (req, res) => {
-        const pid = req.params.pid
+        const pid = new mongoose.Types.ObjectId(req.params.pid);
         const playlist = await playlistDao.findPlaylistById(pid)
         if (playlist) {
             res.json(playlist)
@@ -38,10 +48,22 @@ const PlaylistsController = (app) => {
     } 
 
     const findPlaylistsForUser = async (req, res) => {
-        const uid = new mongoose.Types.ObjectId(req.params.uid);
-        const playlists = await playlistDao.findPlaylistsForUser(uid)
+        const pid = new mongoose.Types.ObjectId(req.params.pid);
+        const playlists = await playlistDao.findPlaylistsForUser(pid)
         res.json(playlists);
     }
+
+    const addSongToPlaylist = async (req, res) => {
+        const pid = new mongoose.Types.ObjectId(req.params.pid);
+        const playlist = await playlistDao.addSongToPlaylist(pid, req.body)
+        res.json(playlist);
+    }
+    const removeSongFromPlaylist = async (req, res) => {
+        const pid = new mongoose.Types.ObjectId(req.params.pid);
+        const playlist = await playlistDao.removeSongFromPlaylist(pid, req.body)
+        res.json(playlist);
+    }
+
 
     app.get('/playlists', findAllPlaylists)
     app.get('/playlists/users/:uid', findPlaylistsForUser)
@@ -50,6 +72,9 @@ const PlaylistsController = (app) => {
     app.post('/playlists', createPlaylist)
     app.put('/playlists/:pid', updatePlaylist)
     app.delete('/playlists/:pid', deletePlaylist)
+    app.post('/playlists/addSong/:pid', addSongToPlaylist)
+    app.patch('/playlists/removeSong/:pid', removeSongFromPlaylist)
+
 }
 
 export default PlaylistsController

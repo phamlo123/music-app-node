@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
 const songsSchema = new mongoose.Schema({
-    name: String,
-    duration: String,
+    track_name: String,
+    duration: Number,
     artist_name: String,
     track_id: String,
-    genre: String,
+    album: String
 }, {collection: 'songs'})
 
 export default songsSchema;

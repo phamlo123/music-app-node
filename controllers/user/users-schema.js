@@ -6,7 +6,8 @@ const usersSchema = new mongoose.Schema({
     email: String,
     firstName: String,
     lastName: String,
-    playlists: [{type: mongoose.Schema.Types.ObjectId, ref: 'PlaylistsModel'}]
+    playlists: [{type: mongoose.Schema.Types.ObjectId, ref: 'PlaylistsModel'}],
+    followees: [{type: mongoose.Schema.Types.ObjectId, ref: 'UsersModel'}]
 }, {collection: 'users'})
 
 export default usersSchema

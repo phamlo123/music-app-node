@@ -23,18 +23,18 @@ const LikesController = (app) => {
         })
         return populatedResults
     }
-    const userLikesMovie = async (req, res) => {
+    const userLikesPlaylist = async (req, res) => {
         const uid = req.params.uid
         const mid = req.params.mid
 
-        const newLike = await likesDao.userLikesMovie(uid, mid)
+        const newLike = await likesDao.userLikesPlaylist(uid, mid)
         // likes.push(newLike)
         res.json(newLike)
     }
-    const userUnlikesMovie = async (req, res) => {
+    const userUnlikesPlaylist = async (req, res) => {
         const uid = req.params.uid
         const mid = req.params.mid
-        const status = await likesDao.userUnlikesMovie(uid, mid)
+        const status = await likesDao.userUnlikesPlaylist(uid, mid)
 
         // likes = likes.filter((l) => l.user !== uid && l.movie !== mid)
         res.send(status)
@@ -43,9 +43,9 @@ const LikesController = (app) => {
         const likes = await likesDao.findAllLikes()
         res.json(likes)
     }
-    const findMoviesLikedByUser = async (req, res) => {
+    const findPlaylistsLikedByUser = async (req, res) => {
         const uid = req.params.uid
-        const movies = await likesDao.findMoviesLikedByUser(uid)
+        const movies = await likesDao.findPlaylistsLikedByUser(uid)
         res.json(movies)
         // const movies = likes.filter((like) => like.user === uid)
         // const populatedMovies = populate({
@@ -56,9 +56,9 @@ const LikesController = (app) => {
         // })
         // res.json(populatedMovies)
     }
-    const findUsersWhoLikedMovie = async (req, res) => {
+    const findUsersThatLikePlaylist = async (req, res) => {
         const mid = req.params.mid
-        const users = await likesDao.findUsersThatLikeMovie(mid)
+        const users = await likesDao.findUsersThatLikePlaylist(mid)
         res.json(users)
 
         // const usersWhoLikeMovie = likes.filter((like) => like.movie === mid)
@@ -71,11 +71,11 @@ const LikesController = (app) => {
         // res.json(populateUsers)
     }
 
-    app.post('/users/:uid/likes/:mid', userLikesMovie)
-    app.delete('/users/:uid/unlikes/:mid', userUnlikesMovie)
+    app.post('/users/:uid/likes/:mid', userLikesPlaylist)
+    app.delete('/users/:uid/unlikes/:mid', userUnlikesPlaylist)
     app.get('/likes', findAllLikes)
-    app.get('/users/:uid/likes', findMoviesLikedByUser)
-    app.get('/movies/:mid/likes', findUsersWhoLikedMovie)
+    app.get('/users/:uid/likes', findPlaylistsLikedByUser)
+    app.get('/movies/:mid/likes', findUsersThatLikePlaylist)
     // app.put(updateLike)
 }
 

@@ -19,7 +19,18 @@ export const updateUser = async (uid, userUpdates) =>
     await usersModel.updateOne({_id: uid},
         {$set: userUpdates})
 
-export const findUserById = (uid) =>
-    usersModel.findById(uid, {password: false})
+export const findUserById = async (uid) =>
+    await usersModel.findById(uid, {password: false})
 
-    
+export const follow = async (uid, fid) => {
+    await usersModel.updateOne(
+        { _id: uid},
+        { $push: { followees: fid } },
+    );
+}
+export const unfollow = async (uid, fid) => {
+    await usersModel.updateOne(
+        { _id: uid},
+        { $pop: { followees: fid } },
+    );
+}
