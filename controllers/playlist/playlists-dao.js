@@ -1,5 +1,6 @@
 import playlistsModel from "./playlists-model.js";
 import songsModel from "../song/songs-model.js";
+import usersModel from "../user/users-model.js";
 export const createPlaylist = async (playlist) => {
     return await playlistsModel.create(playlist)
 }
@@ -10,8 +11,20 @@ export const findPlaylistByName = async (name) =>
 export const findAllPlaylists = async () =>
     await playlistsModel.find().populate('owner')
 
-export const findPlaylistsForUser = async (uid) => 
-    await playlistsModel.find({user: uid}, {user: false})
+export const findPlaylistsForUser = async (uid) => {
+    let pl = await playlistsModel.find({owner: uid})
+    const followees = await usersModel.findOne({_id: uid})
+    console.log(followees?.followees)
+    if (followees != null) {
+        for (let i=0;i<followees.followees.length; i++) {
+            let a = await playlistsModel.find({owner: followees.followees[i]})
+            console.log(a)
+            pl.push(...a);
+        }
+    }
+    return pl
+}
+    
 
 export const deletePlaylist = async (pid) =>
     await playlistsModel.deleteOne({_id: pid})

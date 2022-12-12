@@ -48,8 +48,8 @@ const PlaylistsController = (app) => {
     } 
 
     const findPlaylistsForUser = async (req, res) => {
-        const pid = new mongoose.Types.ObjectId(req.params.pid);
-        const playlists = await playlistDao.findPlaylistsForUser(pid)
+        const uid = new mongoose.Types.ObjectId(req.params.uid);
+        const playlists = await playlistDao.findPlaylistsForUser(uid)
         res.json(playlists);
     }
 
