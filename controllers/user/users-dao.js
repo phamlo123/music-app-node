@@ -32,7 +32,6 @@ export const follow = async (uid, fid) => {
 }
 export const getFollowees = async (uid) => {
     let user = await usersModel.findById(uid).populate('followees')
-    console.log(user)
     return user?.followees
 }
 
@@ -41,7 +40,6 @@ export const unfollow = async (uid, fid) => {
         { _id: uid},
         { $pull: { followees: fid.ufid } },
     );
-    console.log("123dsffa")
     return usersModel.findOne({_id: fid.ufid})
 }
 

@@ -44,6 +44,10 @@ export const addSongToPlaylist = async (pid, song) => {
         local_song = await songsModel.create(song)
         sid = local_song._id
     }
+    const p = await playlistsModel.findById(pid);
+    if (p?.songs.includes(sid)) {
+        return await findPlaylistById(pid);
+    }
 
     const status = await playlistsModel.updateOne(
         { _id: pid},
@@ -53,5 +57,9 @@ export const addSongToPlaylist = async (pid, song) => {
 }
 
 export const removeSongFromPlaylist = async (pid, song_id) => {
-
+    await playlistsModel.updateOne(
+        { _id: pid},
+        { $pull: { songs: song_id.track_id } },
+    );
+    return await playlistsModel.findById(pid).populate('songs').populate('owner');
 }
