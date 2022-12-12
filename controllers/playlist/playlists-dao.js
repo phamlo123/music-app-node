@@ -12,13 +12,11 @@ export const findAllPlaylists = async () =>
     await playlistsModel.find().populate('owner')
 
 export const findPlaylistsForUser = async (uid) => {
-    let pl = await playlistsModel.find({owner: uid})
+    let pl = await playlistsModel.find({owner: uid}).populate("owner")
     const followees = await usersModel.findOne({_id: uid})
-    console.log(followees?.followees)
     if (followees != null) {
         for (let i=0;i<followees.followees.length; i++) {
-            let a = await playlistsModel.find({owner: followees.followees[i]})
-            console.log(a)
+            let a = await playlistsModel.find({owner: followees.followees[i]}).populate("owner")
             pl.push(...a);
         }
     }

@@ -79,19 +79,31 @@ const UsersController = (app) => {
         res.json(user)
     }
 
+    const getWhoToFollow = async (req, res)=> {
+        const uid = req.params.uid;
+        const whoToFollowArray = await userDao.getWhoToFollow(uid)
+        res.json(whoToFollowArray);
+    }
+    const getFollowees = async (req, res)=> {
+        const uid = req.params.uid;
+        const followees = await userDao.getFollowees(uid)
+        res.json(followees);
+    }
+
+
     app.get('/users', findAllUsers)
     app.get('/users/:uid', findUserById)
+    app.get('/users/tofollow/:uid', getWhoToFollow)
     app.post('/users', createUser)
     app.post('/users/follow/:uid', follow)
     app.post('/users/unfollow/:uid', unfollow)
     app.put('/users/:uid', updateUser)
     app.delete('/users/:uid', deleteUser)
-
+    app.get('/users/follow/:uid', getFollowees)
     app.post('/register', register)
     app.post('/login', login)
     app.post('/logout', logout)
     app.post('/profile', profile)
-    
 }
 
 export default UsersController
