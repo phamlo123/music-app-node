@@ -22,6 +22,12 @@ export const findPlaylistsForUser = async (uid) => {
     }
     return pl
 }
+
+export const findFeaturedPlaylists = async () => {
+    // not sure if whether to use populate here
+    let featuredPlaylists = await playlistsModel.find({featured: true});
+    return featuredPlaylists;
+}
     
 
 export const deletePlaylist = async (pid) =>

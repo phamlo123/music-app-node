@@ -70,12 +70,18 @@ const PlaylistsController = (app) => {
         res.json(playlist);
     }
 
+    const findFeaturedPlaylists = async (req, res) => {
+        const featuredPlaylists = playlistDao.findFeaturedPlaylists();
+        res.json(featuredPlaylists);
+    }
+
 
     app.get('/playlists', findAllPlaylists)
     app.get('/playlists/users/:uid', findPlaylistsForUser)
     app.get('/playlists/users/by/:uid', getPlaylistsByUser)
     app.get('/playlists/:pid', findPlaylistById)
     app.get('/playlists/name/:name', findPlaylistByName)
+    app.get('/playlists/featured', findFeaturedPlaylists)
     app.post('/playlists', createPlaylist)
     app.put('/playlists/:pid', updatePlaylist)
     app.delete('/playlists/:pid', deletePlaylist)
