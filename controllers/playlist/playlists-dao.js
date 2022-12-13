@@ -63,3 +63,7 @@ export const removeSongFromPlaylist = async (pid, song_id) => {
     );
     return await playlistsModel.findById(pid).populate('songs').populate('owner');
 }
+
+export const getPlaylistsByUser = async (uid) => {
+    return await playlistsModel.find({owner: uid} ).populate('songs').populate('owner');
+}

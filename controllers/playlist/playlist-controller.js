@@ -22,7 +22,7 @@ const PlaylistsController = (app) => {
     const deletePlaylist = async (req, res) => {
         const pid = new mongoose.Types.ObjectId(req.params.pid);
         const status = await playlistDao.deletePlaylist(pid);
-        res.json(status);
+        res.json(pid);
         return
     }
 
@@ -35,6 +35,12 @@ const PlaylistsController = (app) => {
             return
         }
         res.sendStatus(404)
+    }
+
+    const getPlaylistsByUser = async (req, res) => {
+        const uid = req.params.uid;
+        const pl = await playlistDao.getPlaylistsByUser(uid);
+        res.json(pl);
     }
 
     const findPlaylistByName = async (req, res) => {
@@ -67,6 +73,7 @@ const PlaylistsController = (app) => {
 
     app.get('/playlists', findAllPlaylists)
     app.get('/playlists/users/:uid', findPlaylistsForUser)
+    app.get('/playlists/users/by/:uid', getPlaylistsByUser)
     app.get('/playlists/:pid', findPlaylistById)
     app.get('/playlists/name/:name', findPlaylistByName)
     app.post('/playlists', createPlaylist)
