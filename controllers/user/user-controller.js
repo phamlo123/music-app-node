@@ -18,11 +18,17 @@ const UsersController = (app) => {
 
     const register = async (req, res) => {
         const user = req.body;
+        console.log(user)
         const existingUser = await userDao
             .findUserByUsername(user.username)
         if(existingUser) {
             res.sendStatus(403)
             return
+        }
+        if (user.featured === "false") {
+            user.featured = false;
+        } else {
+            user.featured = true;
         }
         const currentUser = await userDao.createUser(user)
         req.session['currentUser'] = currentUser

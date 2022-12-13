@@ -1,8 +1,15 @@
 import playlistsModel from "./playlists-model.js";
 import songsModel from "../song/songs-model.js";
 import usersModel from "../user/users-model.js";
+import e from "cors";
 export const createPlaylist = async (playlist) => {
-    return await playlistsModel.create(playlist)
+    if (playlist.featured !== "featured") {
+        playlist.featured = false;
+    } else {
+        playlist.featured = true;
+    }
+    const pl = await playlistsModel.create(playlist);
+    return findPlaylistById(pl._id);
 }
 
 export const findPlaylistByName = async (name) =>
