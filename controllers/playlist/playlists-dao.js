@@ -15,15 +15,17 @@ export const createPlaylist = async (playlist) => {
 export const findPlaylistByName = async (name) =>
     await playlistsModel.findOne({name: name}).populate('songs')
 
+// this is for anonymous users
 export const findAllPlaylists = async () =>
-    await playlistsModel.find({featured: false}).populate('owner').sort({dateCreated: -1})
+    await playlistsModel.find().populate('owner').sort({dateCreated: -1})
 
+// for logged in users (non featured)
 export const findPlaylistsForUser = async (uid) => {
     let pl = await playlistsModel.find({owner: uid}).populate("owner")
     const followees = await usersModel.findOne({_id: uid})
     if (followees != null) {
         for (let i=0;i<followees.followees.length; i++) {
-            let a = await playlistsModel.find({owner: followees.followees[i]}).populate("owner").sort({dateCreated: -1})
+            let a = await playlistsModel.find({owner: followees.followees[i], featured: false}).populate("owner").sort({dateCreated: -1})
             pl.push(...a);
         }
     }
