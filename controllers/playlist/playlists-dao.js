@@ -16,20 +16,23 @@ export const findPlaylistByName = async (name) =>
     await playlistsModel.findOne({name: name}).populate('songs')
 
 export const findAllPlaylists = async () =>
-    await playlistsModel.find().populate('owner')
+    await playlistsModel.find({featured: false}).populate('owner').sort({dateCreated: -1})
 
 export const findPlaylistsForUser = async (uid) => {
     let pl = await playlistsModel.find({owner: uid}).populate("owner")
     const followees = await usersModel.findOne({_id: uid})
     if (followees != null) {
         for (let i=0;i<followees.followees.length; i++) {
-            let a = await playlistsModel.find({owner: followees.followees[i]}).populate("owner")
+            let a = await playlistsModel.find({owner: followees.followees[i]}).populate("owner").sort({dateCreated: -1})
             pl.push(...a);
         }
     }
     return pl
 }
-    
+
+export const findFeaturedPlaylists = async () =>{
+    let featuredPl = await playlistsModel.find({featured: true})
+}
 
 export const deletePlaylist = async (pid) =>
     await playlistsModel.deleteOne({_id: pid})
@@ -72,5 +75,5 @@ export const removeSongFromPlaylist = async (pid, song_id) => {
 }
 
 export const getPlaylistsByUser = async (uid) => {
-    return await playlistsModel.find({owner: uid} ).populate('songs').populate('owner');
+    return await playlistsModel.find({owner: uid} ).populate('songs').populate('owner').sort({dateCreated: -1});
 }
