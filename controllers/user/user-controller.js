@@ -22,7 +22,6 @@ const UsersController = (app) => {
 
     const register = async (req, res) => {
         const user = req.body;
-        console.log(user)
         const existingUser = await userDao
             .findUserByUsername(user.username)
         if(existingUser) {
