@@ -1,11 +1,6 @@
 import usersModel from "./users-model.js";
 import mongoose from "mongoose";
 
-
-
-
-
-
 export const createUser = async (user) =>
     await usersModel.create(user)
 
@@ -21,9 +16,9 @@ export const findAllUsers = async () =>
 export const deleteUser = async (uid) =>
     await usersModel.deleteOne({_id: uid})
 
-export const updateUser = async (uid, userUpdates) =>
-    await usersModel.updateOne({_id: uid},
-        {$set: userUpdates})
+
+export const updateUser = async (uid, email) =>
+    await usersModel.updateOne({_id: uid}, {$set: {email: email.email}})
 
 export const findUserById = async (uid) =>
     await usersModel.findById(uid, {password: false})

@@ -4,8 +4,6 @@ let currentUser = null
 
 const UsersController = (app) => {
 
-
-
     const findAllUsers = async (req, res) => {
         const users = await userDao.findAllUsers()
         res.json(users)
@@ -15,7 +13,11 @@ const UsersController = (app) => {
         const actualUser = await userDao.createUser(newUser)
         res.json(actualUser)
     }
-    const updateUser = () => {}
+    const updateUser = async (req, res) => {
+        const uid = req.params.uid
+        const updatedUser = await userDao.updateUser(uid, req.body)
+        res.json(updatedUser)
+    }
     const deleteUser = () => {}
 
     const register = async (req, res) => {
@@ -105,7 +107,7 @@ const UsersController = (app) => {
     app.post('/users', createUser)
     app.post('/users/follow/:uid', follow)
     app.post('/users/unfollow/:uid', unfollow)
-    app.put('/users/:uid', updateUser)
+    app.post('/users/:uid', updateUser)
     app.delete('/users/:uid', deleteUser)
     app.get('/users/follow/:uid', getFollowees)
     app.post('/register', register)
