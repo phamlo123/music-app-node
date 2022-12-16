@@ -59,6 +59,12 @@ const PlaylistsController = (app) => {
         res.json(playlists);
     }
 
+    const findFeaturedPlaylists = async (req, res) => {
+        // const uid = new mongoose.Types.ObjectId(req.params.uid);
+        const playlists = await playlistDao.findFeaturedPlaylists()
+        res.json(playlists);
+    }
+
     const addSongToPlaylist = async (req, res) => {
         const pid = new mongoose.Types.ObjectId(req.params.pid);
         const playlist = await playlistDao.addSongToPlaylist(pid, req.body)
@@ -71,6 +77,7 @@ const PlaylistsController = (app) => {
     }
 
 
+    app.get('/playlists/users', findFeaturedPlaylists)
     app.get('/playlists', findAllPlaylists)
     app.get('/playlists/users/:uid', findPlaylistsForUser)
     app.get('/playlists/users/by/:uid', getPlaylistsByUser)

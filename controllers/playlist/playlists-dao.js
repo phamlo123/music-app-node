@@ -21,7 +21,7 @@ export const findAllPlaylists = async () =>
 
 // for logged in users (non featured)
 export const findPlaylistsForUser = async (uid) => {
-    let pl = await playlistsModel.find({owner: uid}).populate("owner")
+    let pl = await playlistsModel.find({owner: uid, featured: false}).populate("owner")
     const followees = await usersModel.findOne({_id: uid})
     if (followees != null) {
         for (let i=0;i<followees.followees.length; i++) {
@@ -34,6 +34,7 @@ export const findPlaylistsForUser = async (uid) => {
 
 export const findFeaturedPlaylists = async () =>{
     let featuredPl = await playlistsModel.find({featured: true})
+    return featuredPl
 }
 
 export const deletePlaylist = async (pid) =>

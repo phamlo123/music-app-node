@@ -4,6 +4,8 @@ let currentUser = null
 
 const UsersController = (app) => {
 
+
+
     const findAllUsers = async (req, res) => {
         const users = await userDao.findAllUsers()
         res.json(users)
@@ -60,6 +62,7 @@ const UsersController = (app) => {
             res.sendStatus(403)
         }
     }
+    
 
     const findUserById = async (req, res) => {
         const uid = req.params.uid
@@ -95,8 +98,7 @@ const UsersController = (app) => {
         const followees = await userDao.getFollowees(uid)
         res.json(followees);
     }
-
-
+    
     app.get('/users', findAllUsers)
     app.get('/users/:uid', findUserById)
     app.get('/users/tofollow/:uid', getWhoToFollow)
@@ -109,7 +111,8 @@ const UsersController = (app) => {
     app.post('/register', register)
     app.post('/login', login)
     app.post('/logout', logout)
-    app.post('/profile', profile)
+    app.post('/profile/:uid', profile)
+
 }
 
 export default UsersController

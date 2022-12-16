@@ -1,5 +1,11 @@
 import usersModel from "./users-model.js";
 import mongoose from "mongoose";
+
+
+
+
+
+
 export const createUser = async (user) =>
     await usersModel.create(user)
 
