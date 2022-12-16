@@ -33,7 +33,7 @@ export const findPlaylistsForUser = async (uid) => {
 }
 
 export const findFeaturedPlaylists = async () =>{
-    let featuredPl = await playlistsModel.find({featured: true})
+    let featuredPl = await playlistsModel.find({featured: true}).populate("owner")
     return featuredPl
 }
 
