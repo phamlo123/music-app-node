@@ -14,7 +14,7 @@ const app = express()
 
 app.use(cors({
     credentials: true,
-    origin: 'https://ratemyplaylists.herokuapp.com/'
+    origin: 'https://rate-my-playlists.netlify.app/'
 }))
 app.use(session({
     secret: 'should be an environment variable',
